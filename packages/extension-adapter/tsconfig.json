@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "strict": true,
+    "allowJs": true,
+    "declaration": true,
+    "declarationDir": "./lib",
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "moduleResolution": "Node",
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "lib": ["dom", "es2015", "es2016", "es2017", "esnext"],
+    "sourceMap": false,
+    "baseUrl": "./src",
+    "outDir": "./lib",
+    "newLine": "lf"
+  },
+  "exclude": ["./node_modules"],
+  "include": ["src"],
+  "lib": ["dom", "es2015", "es2016", "es2017", "esnext"]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@extension-mounter/extension-adapter",
+  "version": "0.0.1",
+  "description": "> TODO: description",
+  "license": "ISC",
+  "author": "xiaoYown <qzy09101018@sina.com>",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "del dist",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@types/node": "^20.11.24",
+    "del-cli": "^5.0.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.17.8"
+  }
+}

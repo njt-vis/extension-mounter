@@ -1,0 +1,22 @@
+{
+  "name": "@extension-mounter/base",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/systemjs": "^6.13.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.6"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@extension-mounter/extension-adapter": "workspace:^"
+  }
+}

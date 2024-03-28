@@ -1,0 +1,15 @@
+{
+  "name": "extension-mounter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "start:base": "pm2 start base.ecosystem.config.js",
+    "start:extension": "pm2 start extension.ecosystem.config.js",
+    "start:tool": "pm2 start tool.ecosystem.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
