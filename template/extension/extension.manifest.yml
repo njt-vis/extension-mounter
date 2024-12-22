@@ -3,6 +3,7 @@ libs:
   'react': 18.2.0
   'react-dom': 18.2.0
   '@antv/g2': 5.1.15
+  antd: 4.24.15
   # antd: 5.15.1
 locales:
   en-US:

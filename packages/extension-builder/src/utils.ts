@@ -1,17 +1,23 @@
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import path, { resolve } from 'path';
 import YAML from 'yaml';
+import qs from 'qs';
 
 // const SystemJSPublicPathWebpackPlugin = require('systemjs-webpack-interop/SystemJSPublicPathWebpackPlugin');
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import {
   BUNDLE_DIR,
   BUNDLE_MANIFEST_NAME,
   ENTRY_FILE_NAME,
   MANIFEST_FILE_NAME,
+  OUTPUT_CSS_FILE_NAME,
   OUTPUT_FILE_NAME,
 } from './constants';
+
+import { remoteLibraryPath } from '@extension-mounter/hosts';
 
 const SimpleProgressWebpackPlugin = require('simple-progress-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -31,7 +37,8 @@ interface ManifestModel {
 interface ManifestBundleModel {
   name: string;
   version: string;
-  libs?: Record<string, string>;
+  libs: Record<string, string>;
+  hasCss: boolean;
   locales: Record<string, Record<string, string>>;
 }
 
@@ -54,13 +61,38 @@ const formatManifest = (): ManifestModel => {
   return manifest;
 };
 
-const getBundleManifest = (manifest: ManifestModel): ManifestBundleModel => {
+const getBundleManifest = async (
+  manifest: ManifestModel
+): Promise<ManifestBundleModel> => {
   const pkg = getPkg();
+
+  const { libs = {} } = manifest;
+
+  const requests = Object.entries(libs || {}).map(([lib, version]) => {
+    return fetch(`${remoteLibraryPath}/${lib}/${version}/library.manifest.json`)
+      .then(res => {
+        return res.json();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  });
+  const responses = await Promise.all(requests);
+
+  Object.entries(libs).forEach(([name, version]) => {
+    Object.assign(libs, {
+      [name]: qs.stringify({
+        version,
+        css: responses.find(lib => lib.name === name)?.hasCss ? 1 : 0,
+      }),
+    });
+  });
 
   return {
     name: pkg.name,
     version: pkg.version,
-    libs: manifest.libs,
+    libs: manifest.libs || {},
+    hasCss: existsSync(resolve(BUNDLE_DIR, OUTPUT_CSS_FILE_NAME)),
     locales: manifest.locales,
   };
 };
@@ -83,9 +115,14 @@ const extractExternals = (
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const formatWebpackConfig = (config: ConfigModel) => {
   const isProd = process.env.NODE_ENV === 'production';
+  const pkg = getPkg();
   const manifest = formatManifest();
 
   const plugins = [
+    new MiniCssExtractPlugin({
+      filename: OUTPUT_CSS_FILE_NAME,
+    }),
+    new CssMinimizerPlugin(),
     new SimpleProgressWebpackPlugin(),
     new CompressionPlugin({
       threshold: 12800, // 对大于 128kb 的文件进行压缩
@@ -102,7 +139,7 @@ export const formatWebpackConfig = (config: ConfigModel) => {
     mode: process.env.NODE_ENV,
     entry: resolve('src', ENTRY_FILE_NAME),
     output: {
-      publicPath: undefined,
+      publicPath: `/${pkg.name}/${pkg.version}/`,
       filename: OUTPUT_FILE_NAME,
       path: resolve(BUNDLE_DIR),
       libraryTarget: config.analyze ? undefined : 'system',
@@ -156,6 +193,24 @@ export const formatWebpackConfig = (config: ConfigModel) => {
           //   sourceMap: !isProd(config.mode),
           // },
         },
+        {
+          test: /\.(css)$/,
+          // sideEffects: true,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: require.resolve('css-loader'),
+            },
+            {
+              loader: require.resolve('postcss-loader'),
+              options: {
+                postcssOptions: {
+                  plugins: ['postcss-preset-env'],
+                },
+              },
+            },
+          ],
+        },
       ],
     },
   };
@@ -180,7 +235,7 @@ export function build(config: ConfigModel): Promise<string> {
 
     const compiler = webpack(webpackConfig);
 
-    compiler.run((error: any, stats: any) => {
+    compiler.run(async (error: any, stats: any) => {
       if (error) {
         // let errMessage = error.message;
         reject(error);
@@ -190,7 +245,7 @@ export function build(config: ConfigModel): Promise<string> {
         reject(stats?.toString({ all: false, warnings: false, errors: true }));
         return;
       }
-      const manifest = getBundleManifest(formatManifest());
+      const manifest = await getBundleManifest(formatManifest());
       // 导出 extension.manifest 文件
       writeFileSync(
         path.resolve(BUNDLE_DIR, BUNDLE_MANIFEST_NAME),

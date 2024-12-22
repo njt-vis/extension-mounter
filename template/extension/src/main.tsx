@@ -1,11 +1,34 @@
-import { createRoot } from 'react-dom/client';
+import { Root, createRoot } from 'react-dom/client';
+import RemoteAdapter from '@extension-mounter/extension-adapter';
 
 import App from './App';
 
-const container = document.createElement('div');
+export default class RemoteEntry extends RemoteAdapter {
+  private root?: Root;
 
-document.body.appendChild(container);
+  private beforeRender = () => {
+  };
+  private beforeUnmout = () => {
+  };
 
-const root = createRoot(container);
+  /** 容器完成挂载 */
+  override onMounted = (): void => {
+    if (!this.container) {
+      console.log('[ERROR]', 'Lost container');
+      return;
+    }
+    this.beforeRender();
 
-root.render(<App />);
+    const root = createRoot(this.container);
+
+    root.render(<App />);
+
+    this.root = root;
+  };
+
+  /** 容器销毁 */
+  override onDestroy = (): void => {
+    this.beforeUnmout();
+    this.root?.unmount();
+  };
+}

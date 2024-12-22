@@ -9,14 +9,16 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/qs": "^6.9.14",
     "@types/systemjs": "^6.13.5",
-    "typescript": "^5.2.2",
+    "typescript": "5.3.3",
     "vite": "^5.1.6"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@extension-mounter/extension-adapter": "workspace:^"
+    "@extension-mounter/extension-adapter": "workspace:^",
+    "qs": "^6.12.0"
   }
 }

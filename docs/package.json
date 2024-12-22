@@ -1,0 +1,19 @@
+{
+  "name": "@app-fe/docs",
+  "version": "1.0.0",
+  "description": "docs",
+  "homepage": "https://github.com/njt-tools-open/njt-tools-open.github.io#readme",
+  "bugs": {
+    "url": "https://github.com/njt-tools-open/njt-tools-open.github.io/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/njt-tools-open/njt-tools-open.github.io"
+  },
+  "license": "ISC",
+  "author": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "docsify serve -p 3022"
+  }
+}

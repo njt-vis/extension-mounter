@@ -13,12 +13,18 @@ importers:
       '@extension-mounter/extension-adapter':
         specifier: workspace:^
         version: link:../extension-adapter
+      qs:
+        specifier: ^6.12.0
+        version: 6.12.0
     devDependencies:
+      '@types/qs':
+        specifier: ^6.9.14
+        version: 6.9.14
       '@types/systemjs':
         specifier: ^6.13.5
         version: 6.13.5
       typescript:
-        specifier: ^5.2.2
+        specifier: 5.3.3
         version: 5.3.3
       vite:
         specifier: ^5.1.6
@@ -34,7 +40,7 @@ importers:
         specifier: ^7.16.11
         version: 7.24.0(@babel/core@7.24.0)
       '@types/node':
-        specifier: ^20.11.24
+        specifier: 20.11.24
         version: 20.11.24
       del-cli:
         specifier: ^5.0.0
@@ -43,7 +49,7 @@ importers:
         specifier: ^2.6.2
         version: 2.6.2
       typescript:
-        specifier: ^5.3.3
+        specifier: 5.3.3
         version: 5.3.3
 
   packages/extension-builder:
@@ -54,6 +60,9 @@ importers:
       '@babel/preset-env':
         specifier: ^7.24.0
         version: 7.24.0(@babel/core@7.24.0)
+      '@extension-mounter/hosts':
+        specifier: workspace:^
+        version: link:../hosts
       babel-loader:
         specifier: ^9.1.3
         version: 9.1.3(@babel/core@7.24.0)(webpack@5.90.3)
@@ -63,6 +72,15 @@ importers:
       compression-webpack-plugin:
         specifier: ^11.1.0
         version: 11.1.0(webpack@5.90.3)
+      css-minimizer-webpack-plugin:
+        specifier: ^6.0.0
+        version: 6.0.0(webpack@5.90.3)
+      mini-css-extract-plugin:
+        specifier: ^2.8.1
+        version: 2.8.1(webpack@5.90.3)
+      qs:
+        specifier: ^6.12.0
+        version: 6.12.0
       simple-progress-webpack-plugin:
         specifier: ^2.0.0
         version: 2.0.0(webpack@5.90.3)
@@ -70,7 +88,7 @@ importers:
         specifier: ^9.5.1
         version: 9.5.1(typescript@5.3.3)(webpack@5.90.3)
       typescript:
-        specifier: ^5.3.3
+        specifier: 5.3.3
         version: 5.3.3
       webpack:
         specifier: ^5.90.3
@@ -89,8 +107,23 @@ importers:
         version: 2.4.0
     devDependencies:
       '@types/node':
-        specifier: ^20.11.24
+        specifier: 20.11.24
         version: 20.11.24
+
+  packages/hosts:
+    devDependencies:
+      '@babel/core':
+        specifier: 7.24.0
+        version: 7.24.0
+      '@babel/preset-env':
+        specifier: 7.24.0
+        version: 7.24.0(@babel/core@7.24.0)
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.2
+      typescript:
+        specifier: 5.3.3
+        version: 5.3.3
 
   packages/lib-builder:
     dependencies:
@@ -131,7 +164,7 @@ importers:
         specifier: ^9.5.1
         version: 9.5.1(typescript@5.3.3)(webpack@5.90.3)
       typescript:
-        specifier: ^5.3.3
+        specifier: 5.3.3
         version: 5.3.3
       webpack:
         specifier: ^5.90.3
@@ -144,7 +177,7 @@ importers:
         version: 2.4.0
     devDependencies:
       '@types/node':
-        specifier: ^20.11.24
+        specifier: 20.11.24
         version: 20.11.24
 
   template/extension:
@@ -152,6 +185,9 @@ importers:
       '@antv/g2':
         specifier: 5.1.15
         version: 5.1.15
+      '@extension-mounter/extension-adapter':
+        specifier: workspace:^
+        version: link:../../packages/extension-adapter
       antd:
         specifier: 4.24.15
         version: 4.24.15(react-dom@18.2.0)(react@18.2.0)
@@ -211,7 +247,7 @@ importers:
         specifier: 5.0.0
         version: 5.0.0
       typescript:
-        specifier: ^5.3.3
+        specifier: 5.3.3
         version: 5.3.3
 
   template/library:
@@ -236,7 +272,7 @@ importers:
         specifier: workspace:^1.0.0
         version: link:../../packages/lib-builder
       '@types/node':
-        specifier: ^20.11.24
+        specifier: 20.11.24
         version: 20.11.24
       '@types/react':
         specifier: ^18.2.63
@@ -2743,6 +2779,10 @@ packages:
   /@types/qs@6.9.12:
     resolution: {integrity: sha512-bZcOkJ6uWrL0Qb2NAWKa7TBU+mJHPzhx9jjLL1KHF+XpzEcR7EXHvjbHlGtR/IsP1vyPrehuS6XqkmaePy//mg==}
     dev: false
+
+  /@types/qs@6.9.14:
+    resolution: {integrity: sha512-5khscbd3SwWMhFqylJBLQ0zIu7c1K6Vz0uBIt915BI3zV0q1nfjRQD3RqSBcPaO6PHEF4ov/t9y89fSiyThlPA==}
+    dev: true
 
   /@types/range-parser@1.2.7:
     resolution: {integrity: sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==}
@@ -6953,6 +6993,13 @@ packages:
 
   /qs@6.11.0:
     resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
+    engines: {node: '>=0.6'}
+    dependencies:
+      side-channel: 1.0.6
+    dev: false
+
+  /qs@6.12.0:
+    resolution: {integrity: sha512-trVZiI6RMOkO476zLGaBIzszOdFPnCCXHPG9kn0yuS1uz6xdVxPfZdB3vUig9pxPFDM9BRAgz/YUIVQ1/vuiUg==}
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.6

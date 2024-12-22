@@ -8,31 +8,34 @@ import {
   register,
 } from './remote-element';
 
+export interface RemoteAdapterResource {
+  tag: 'link';
+  attributes: {
+    rel: string;
+    href: string;
+  };
+}
 export interface RemoteAdapterOptions {
-  publicPath: string;
   container: HTMLDivElement;
+  resources?: RemoteAdapterResource[];
 }
 
 class RemoteAdapter {
   constructor(options: RemoteAdapterOptions) {
-    this.publicPath = options.publicPath;
     this.parentContainer = options.container;
+    this.resources = options.resources || [];
   }
 
   private isDestroy = false;
   private remoteElement?: HTMLRemoteElement;
   private parentContainer?: HTMLDivElement;
+  private resources: RemoteAdapterResource[] = [];
   // private listener?: Listener;
 
   private beforeMount = () => {
-    let resources = this.getStaticResources();
-
-    if (!Array.isArray(resources)) {
-      resources = [];
-    }
     this.remoteElement?.setAttribute(
       ATTRIBUTES.LINK_RESOURCES,
-      JSON.stringify(resources)
+      JSON.stringify(this.resources)
     );
   };
 

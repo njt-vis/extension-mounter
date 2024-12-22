@@ -1,6 +1,8 @@
+// import './App.css';
+
 import { useEffect, useRef } from 'react';
 import { Chart } from '@antv/g2';
-// import { Button } from 'antd';
+import { Button } from 'antd';
 // import dayjs from 'dayjs';
 
 // console.log(dayjs());
@@ -41,14 +43,14 @@ export default function App() {
     <>
       <h1>Extension render by react</h1>
       <div ref={container}></div>
-      {/* <>
+      <>
         <Button type="primary">Primary Button</Button>
         <Button>Default Button</Button>
         <Button type="dashed">Dashed Button</Button>
         <br />
         <Button type="text">Text Button</Button>
         <Button type="link">Link Button</Button>
-      </> */}
+      </>
     </>
   );
 }

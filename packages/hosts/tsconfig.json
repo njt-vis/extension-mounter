@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "outDir": "lib",
+    "strict": true,
+    "allowJs": true,
+    "strictNullChecks": true,
+    "noImplicitThis": false,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "lib": ["es2015", "es2016", "es2017", "esnext"],
+    "baseUrl": "./src",
+    "newLine": "lf",
+    "declaration": true,
+    "declarationDir": "lib"
+  },
+  "exclude": ["./node_modules"],
+  "include": ["src"]
+}
